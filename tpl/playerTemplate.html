@@ -1,0 +1,159 @@
+{% block title %}{{ player._id }}{% endblock %}
+{% extends 'template.html' %}
+{% block content %}
+<div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">{{ player._id }} <small> {% if player.links.facebook %}<a href="{{player.links.facebook}}"><i class="fa fa-facebook fa-fw"></i></a>{% endif %}  {% if player.links.twitter %}<a href="{{player.links.twitter}}"><i class="fa fa-twitter fa-fw"></i></a>{% endif %}</small></h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Maps Gewonnen / Verloren
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div id="morris-bar-chart"></div>
+                                </div>
+                                <!-- /.col-lg-8 (nested) -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Letzte Battles
+                        </div>
+                        <ul class="timeline">
+                             {% for x in lastBattles %}    
+                            <li {% if x.result.type == 'lose' %}class="timeline-inverted"{% endif %}>
+                                    <div class="timeline-badge {% if x.result.type == 'win' %}success{% endif %}{% if x.result.type == 'lose' %}danger{% endif %}"><i class="fa fa-thumbs-{% if x.result.type == 'win' %}up{% endif %}{% if x.result.type == 'lose' %}down{% endif %}"></i>
+                                    </div>
+                                    <div class="timeline-panel">
+                                        <div class="timeline-heading">
+                                            <h4 class="timeline-title"><a href="../battle/{{x.result.vid}}.html">{{x.result.map}}</a></h4>
+                                            <p>
+                                                <small class="text-muted"><i class="fa fa-time"></i> {{x.result.date|myDate}}</small>
+                                            </p>
+                                        </div>
+                                        <div class="timeline-body">
+                                             <div class="row">
+                                                <div class="col-lg-6">
+                                                    Score:<br>{{x.result.s}}
+                                                </div>
+                                                 <div class="col-lg-2">
+                                                    K:<br>{{x.result.k}}
+                                                </div>
+                                                 <div class="col-lg-2">
+                                                    D:<br>{{x.result.d}}
+                                                </div>
+                                                 <div class="col-lg-2">
+                                                    A:<br>{{x.result.a}}
+                                                </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-8 -->
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-info fa-fw"></i> Stats
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="list-group">
+                                <a href="#" class="list-group-item">
+                                    <i class="fa fa-star fa-fw"></i> Punkte
+                                    <span class="pull-right text-muted small"><em>{{ player.score }}</em>
+                                    </span>
+                                </a>
+                                 <a href="#" class="list-group-item">
+                                    <i class="fa fa-thumbs-up fa-fw"></i> Gewonnen
+                                    <span class="pull-right text-muted small"><em>{{ player.wins }}</em>
+                                    </span>
+                                </a>
+                                 <a href="#" class="list-group-item">
+                                    <i class="fa fa-thumbs-down fa-fw"></i> Verloren
+                                    <span class="pull-right text-muted small"><em>{{ player.losses }}</em>
+                                    </span>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <i class="fa fa-check fa-fw"></i> Kills
+                                    <span class="pull-right text-muted small"><em>{{ player.kills }}</em>
+                                    </span>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <i class="fa fa-ambulance fa-fw"></i> Deaths
+                                    <span class="pull-right text-muted small"><em>{{ player.deaths }}</em>
+                                    </span>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <i class="fa fa-wrench fa-fw"></i> Assists
+                                    <span class="pull-right text-muted small"><em>{{ player.assists }}</em>
+                                    </span>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <i class="fa fa-clock-o fa-fw"></i> Spielzeit
+                                    <span class="pull-right text-muted small"><em>{{ player.playTime }}</em>
+                                    </span>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <i class="fa fa-tasks fa-fw"></i> Battles
+                                    <span class="pull-right text-muted small"><em>{{ player.plays }}</em>
+                                    </span>
+                                </a>
+                            </div>
+                            <!-- /.list-group -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> KD
+                        </div>
+                        <div class="panel-body">
+                            <div id="morris-donut-chart"></div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                    <!-- /.panel -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Gewonnen
+                        </div>
+                        <div class="panel-body">
+                            <div id="morris-donut-chart2"></div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-4 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+{% endblock %}
+
+{% block js %}
+    <script src="{{player._id|url_encode}}.js"></script>
+{% endblock %}
+
+{% block relPath %}../{% endblock %}

@@ -1,0 +1,121 @@
+{% block title %}PietSmiet MW2 Battle Statistics{% endblock %}
+{% extends 'template.html' %}
+{% block content %}
+<div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">PietSmiet MW2 Battles <small>Statistics.</small></h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <div class="row">
+	      <div class="col-lg-12">
+	        <div class="well">
+                                <p><i class="fa fa-info fa-fw"></i>Die Stats wurden automatisert aus letzten {{meta.count}} MW2 Battle-Videos generiert. Wie? <a href="makingof.html"><i class="fa fa-long-arrow-right"></i> Making of</a>. In den Statistiken werden alle Videos der 3. Staffel berücksichtigt, die in 1080p verfügbar sind und bei denen es sich um "normale" Battles handelt.  Ein kleiner Teil der Videos sind wegen "technical difficulties" bei der Texterkennung unter den Tisch gefallen.</p>
+                                <p><a href="http://www.youtube.com/pietsmitiie"><i class="fa fa-youtube fa-fw"></i> Zum PietSmiet Kanal</a></p>
+                                
+                 </div>
+	      </div>
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Achievements
+                        </div>
+                        <ul class="timeline">
+                             {% for x in achievements %}    
+                            <li {% if x.type == 'lose' %}class="timeline-inverted"{% endif %}>
+                                    <div class="timeline-badge {% if x.type == 'win' %}success{% endif %}{% if x.type == 'lose' %}danger{% endif %}"><i class="fa fa-thumbs-{% if x.type == 'win' %}up{% endif %}{% if x.type == 'lose' %}down{% endif %}"></i>
+                                    </div>
+                                    <div class="timeline-panel">
+                                        <div class="timeline-heading">
+                                            <h4 class="timeline-title">{{x.title}}</h4>
+                                            <p>
+                                                <small class="text-muted"><i class="fa fa-time"></i> {{x.desc}}</small>
+                                            </p>
+                                        </div>
+                                        <div class="timeline-body">
+                                             <div class="row">
+                                                <div class="col-lg-6">
+                                                    <br><strong><a href="player/{{x.player|url_encode}}.html">{{x.player}}</a></strong>
+                                                </div>
+                                                 <div class="col-lg-3">
+                                                    {{x.name}}:<br>{{x.result}}
+                                                </div>
+                                                 <div class="col-lg-3">
+                                                    avg:<br>{{x.avg}}
+                                                </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-8 -->
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-info fa-fw"></i> Stats
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="list-group">
+                                <a href="#" class="list-group-item">
+                                    <i class="fa fa-star fa-fw"></i> Punkte
+                                    <span class="pull-right text-muted small"><em>{{ stats.p }}</em>
+                                    </span>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <i class="fa fa-check fa-fw"></i> Kills
+                                    <span class="pull-right text-muted small"><em>{{ stats.k }}</em>
+                                    </span>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <i class="fa fa-ambulance fa-fw"></i> Deaths
+                                    <span class="pull-right text-muted small"><em>{{ stats.d }}</em>
+                                    </span>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <i class="fa fa-wrench fa-fw"></i> Assists
+                                    <span class="pull-right text-muted small"><em>{{ stats.a }}</em>
+                                    </span>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <i class="fa fa-clock-o fa-fw"></i> Spielzeit
+                                    <span class="pull-right text-muted small"><em>{{ stats.duration }}</em>
+                                    </span>
+                                </a>
+                            </div>
+                            <!-- /.list-group -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Maps
+                        </div>
+                        <div class="panel-body">
+                            <div id="morris-donut-chart"></div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-4 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+{% endblock %}
+
+{% block js %}
+    <script src="index.js"></script>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% block title %}MW2 Battles{% endblock %}
+{% extends 'template.html' %}
+{% block content %}
+<div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Battles</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Alle Battles
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="dataTables-1">
+                                    <thead>
+                                        <tr>
+                                            <th>Thumbnail</th>
+                                            <th>Titel</th>
+                                            <th>Länge</th>
+                                            <th>Datum</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for x in battles %}  
+                                        <tr style="cursor:pointer;" onclick="document.location = 'battle/{{x.id}}.html';">
+                                            <td><img src="http://i1.ytimg.com/vi/{{x.id}}/mqdefault.jpg" alt="{{x.title}}"></td>
+                                            <td>{{x.title}}</td>
+                                            <td>{{x.duration}}</td>
+                                            <td>{{x.date|myDate}}</td>
+                                        </tr>
+                                        {% endfor %}    
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+            </div>
+            <!-- /.row -->
+        </div>
+    </div>
+        <!-- /#page-wrapper -->
+{% endblock %}
+
+{% block js %}
+     <script>
+    $(document).ready(function() {
+        $('#dataTables-1').dataTable();
+    });
+    </script>
+{% endblock %}
